@@ -6,7 +6,10 @@ public class PointsCollection {
     private String _id;
     private Integer points;
     
-    public PointsCollection() {}
+    public PointsCollection(String _id,Integer points) {
+        this._id = _id;
+        this.points = points;
+    }
     
     public String getId(){
         return _id;

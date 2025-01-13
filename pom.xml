@@ -76,13 +76,37 @@
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
         </repository>
+        <repository>
+            <id>spigotmc-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+        <repository>
+            <id>mongodb</id>
+            <url>https://mvnrepository.com/artifact/org.mongodb</url>
+        </repository>
+        <repository>
+            <id>opencollab-repository-main</id>
+            <name>Opencollab Repository</name>
+            <url>https://repo.opencollab.dev/main</url>
+        </repository>
     </repositories>
 
     <dependencies>
         <dependency>
             <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-sync</artifactId>
+            <version>5.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-kotlin-coroutine</artifactId>
             <version>5.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>net.luckperms</groupId>
+            <artifactId>api</artifactId>
+            <version>5.4</version>
+            <scope>provided</scope>
         </dependency>
         <dependency>
             <groupId>io.papermc.paper</groupId>

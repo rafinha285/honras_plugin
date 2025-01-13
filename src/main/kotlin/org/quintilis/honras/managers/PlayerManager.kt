@@ -1,0 +1,34 @@
+package org.quintilis.honras.managers
+
+import com.mongodb.kotlin.client.coroutine.MongoCollection
+import com.mongodb.client.model.Filters.*
+import kotlinx.coroutines.flow.*
+import org.bson.Document
+import org.bson.types.ObjectId
+import org.bukkit.Bukkit
+import org.bukkit.entity.Player
+import org.quintilis.honras.types.PlayerCollection
+
+class PlayerManager(val playerCollection: MongoCollection<PlayerCollection>,val clanManager :ClansManager){
+    val logger = Bukkit.getLogger()
+    suspend fun isInDatabase(player: Player) : Boolean{
+        return playerCollection.find(eq("_id",player.uniqueId.toString())).firstOrNull()!=null
+    }
+    
+    suspend fun isInClan(player: Player) : Boolean{
+        val isInClanPlayer:Boolean = playerCollection.find(eq("_id",player.uniqueId.toString())).first().clanId!=null
+        val isInClanClan:Boolean = clanManager.getFromPlayer(player)!=null
+        return isInClanPlayer&&isInClanClan
+    }
+    
+    suspend fun getClanId(player :Player):ObjectId?{
+        val doc = playerCollection.find(eq("_id",player.uniqueId.toString())).firstOrNull()
+        if(doc!=null) return doc.clanId else return null
+    }
+    
+    suspend fun addPlayer(player: Player){
+        val playerDoc = PlayerCollection(player.uniqueId.toString(),player.name,ObjectId())
+        playerCollection.insertOne(playerDoc)
+        logger.info("Player ${player.name} added to database")
+    }
+}

@@ -1,0 +1,4 @@
+name: honras
+version: '0.1'
+main: org.quintilis.honras.Honras
+api-version: '1.18'

@@ -7,7 +7,11 @@ public class PlayerCollection {
 	private String name;
 	private String _id;
 	
-	public PlayerCollection() {}
+	public PlayerCollection(String _id, String name, ObjectId clanId) {
+		this._id = _id;
+		this.name = name;
+		this.clanId = clanId;
+	}
 	
 	public String getId(){
 		return _id;
