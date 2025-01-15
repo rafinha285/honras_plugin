@@ -10,31 +10,19 @@ import java.util.UUID;
 public class ClansCollection {
 	private ObjectId _id;
 	private String name;
-	private List<String> members;
 	private String prefix;
-	private List<String> enemies;
-	private List<String> allies;
+	private List<UUID> members;
+	private List<ObjectId> enemies;
+	private List<ObjectId> allies;
 	private UUID owner;
 	private Integer points;
 	
 	public ClansCollection(
 		ObjectId _id,
-		String name,
-		String prefix,
-		List<String> members,
-		List<String> enemies,
-		List<String> allies,
-		UUID owner,
-		Integer points
+		String name
 	) {
 		this._id = _id;
 		this.name = name;
-		this.members = members;
-		this.points = points;
-		this.enemies = enemies;
-		this.allies = allies;
-		this.owner = owner;
-		this.prefix = prefix;
 	}
 	
 	public ObjectId getId(){
@@ -46,13 +34,13 @@ public class ClansCollection {
 	public String getPrefix(){
 		return prefix;
 	}
-	public List<String> getMembers(){
+	public List<UUID> getMembers(){
 		return members;
 	}
-	public List<String> getEnemies(){
+	public List<ObjectId> getEnemies(){
 		return enemies;
 	}
-	public List<String> getAllies(){
+	public List<ObjectId> getAllies(){
 		return allies;
 	}
 	public UUID getOwner(){
@@ -70,13 +58,13 @@ public class ClansCollection {
 	public void setPrefix(String prefix){
 		this.prefix = prefix;
 	}
-	public void setMembers(List<String> members){
+	public void setMembers(List<UUID> members){
 		this.members = members;
 	}
-	public void setEnemies(List<String> enemies){
+	public void setEnemies(List<ObjectId> enemies){
 		this.enemies = enemies;
 	}
-	public void setAllies(List<String> allies){
+	public void setAllies(List<ObjectId> allies){
 		this.allies = allies;
 	}
 	public void setOwner(UUID owner){
