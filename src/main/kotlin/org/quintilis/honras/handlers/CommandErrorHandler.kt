@@ -20,4 +20,8 @@ class CommandErrorHandler {
         sender.sendMessage("Argumentos errados")
         return false
     }
+    fun notInAClan(sender:CommandSender):Boolean{
+        sender.sendMessage("Você não esta em um clã")
+        return false
+    }
 }

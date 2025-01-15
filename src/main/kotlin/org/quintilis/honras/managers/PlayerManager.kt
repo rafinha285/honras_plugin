@@ -11,22 +11,28 @@ import org.quintilis.honras.types.PlayerCollection
 
 class PlayerManager(val playerCollection: MongoCollection<PlayerCollection>,val clanManager :ClansManager){
     val logger = Bukkit.getLogger()
-     fun isInDatabase(player: Player) : Boolean{
+    fun isInDatabase(player: Player) : Boolean{
         return playerCollection.find(eq("_id",player.uniqueId.toString())).firstOrNull()!=null
     }
     
-     fun isInClan(player: Player) : Boolean{
+    fun setClan(player: Player, clanId:ObjectId?) {
+        val document = Document()
+            .append("clanId", clanId ?: "")
+        playerCollection.updateOne(eq("_id",player.uniqueId.toString()),document)
+    }
+    
+    fun isInClan(player: Player) : Boolean{
         val isInClanPlayer:Boolean = playerCollection.find(eq("_id",player.uniqueId.toString())).first().clanId!=null
         val isInClanClan:Boolean = clanManager.getFromPlayer(player)!=null
         return isInClanPlayer&&isInClanClan
     }
     
-     fun getClanId(player :Player):ObjectId?{
-        val doc = playerCollection.find(eq("_id",player.uniqueId.toString())).firstOrNull()
-        if(doc!=null) return doc.clanId else return null
+    fun getClanId(player :Player):ObjectId?{
+        val doc = playerCollection.find(eq("_id",player.uniqueId.toString())).first()
+        return doc.clanId
     }
     
-     fun addPlayer(player: Player){
+    fun addPlayer(player: Player){
         val playerDoc = PlayerCollection(player.uniqueId.toString(),player.name,ObjectId())
         playerCollection.insertOne(playerDoc)
         logger.info("Player ${player.name} added to database")

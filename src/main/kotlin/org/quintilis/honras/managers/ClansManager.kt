@@ -18,8 +18,8 @@ class ClansManager(val mongoCollection: MongoCollection<ClansCollection>){
 		 return mongoCollection.find(Filters.eq("owner",owner)).firstOrNull()
 	}
 	
-	fun getClan(clanId: ObjectId): ClansCollection?{
-		 return mongoCollection.find(Filters.eq("_id", clanId)).firstOrNull()
+	fun getClan(clanId: ObjectId): ClansCollection{
+		 return mongoCollection.find(Filters.eq("_id", clanId)).first()
 	}
 	
 	fun getFromPlayer(player:Player):ClansCollection? {

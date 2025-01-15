@@ -26,7 +26,9 @@ class SendInvite: CommandExecutor, TabCompleter {
             return errorHandler.wrongArgument(sender)
         }
         val player = Bukkit.getPlayer(args[0])
-        
+        if(player == null){
+            return errorHandler.playerNotFound(sender)
+        }
         return true
     }
 }
