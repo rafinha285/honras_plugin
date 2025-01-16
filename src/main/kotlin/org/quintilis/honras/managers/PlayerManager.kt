@@ -17,8 +17,12 @@ class PlayerManager(val playerCollection: MongoCollection<PlayerCollection>,val 
     
     fun setClan(player: Player, clanId:ObjectId?) {
         val document = Document()
-            .append("clanId", clanId ?: "")
-        playerCollection.updateOne(eq("_id",player.uniqueId.toString()),document)
+        if(clanId != null){
+            document.append("clanId",clanId)
+        }else{
+            document.append("clanId","")
+        }
+        playerCollection.updateOne(eq("_id",player.uniqueId.toString()),Document("\$set",document))
     }
     
     fun isInClan(player: Player) : Boolean{

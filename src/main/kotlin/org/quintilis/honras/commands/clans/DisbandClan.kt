@@ -11,7 +11,7 @@ import org.quintilis.honras.managers.ClansManager
 import org.quintilis.honras.managers.PlayerManager
 import org.quintilis.honras.types.ClansCollection
 
-class DIsbandClan(val clansManager :ClansManager,val playerManager :PlayerManager): CommandExecutor, TabCompleter {
+class DisbandClan(val clansManager :ClansManager, val playerManager :PlayerManager): CommandExecutor, TabCompleter {
 	override fun onTabComplete(sender:CommandSender, command:Command, string: String, args: Array<String>): List<String> {
 		return listOf()
 	}
@@ -20,19 +20,24 @@ class DIsbandClan(val clansManager :ClansManager,val playerManager :PlayerManage
 		if(sender !is Player) {
 			return errorHandler.notPlayer(sender)
 		}
-		if(!clansManager.isOwner(sender as Player)) {
+		if(!clansManager.isOwner(sender)) {
 			return errorHandler.notOwner(sender)
 		}
 		val clanId = playerManager.getClanId(sender) ?: return errorHandler.notInAClan(sender)
 		val clan:ClansCollection = clansManager.getClan(clanId)
+		//seta os clans dos participantes para nulo ou "" (string vazia)
 		for (member in clan.members){
 			val playerMember = Bukkit.getPlayer(member)
 			if(playerMember != null){
-				//todo arrumar esse errro MERDA
-				playerManager.setClan(playerMember)
+				playerManager.setClan(playerMember,null)
 			}
 		}
-		//todo delete clan
+		//deleta o clan
+		clansManager.deleteClan(clan)
+//		sender.sendMessage("Clã ${clan.name} foi desfeito")
+		for(player in Bukkit.getOnlinePlayers()){
+			player.sendMessage("${player.name} foi desfeito")
+		}
 		return true
 	}
 }

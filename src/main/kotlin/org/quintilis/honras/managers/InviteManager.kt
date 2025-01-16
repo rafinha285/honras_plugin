@@ -3,19 +3,28 @@ package org.quintilis.honras.managers
 import org.quintilis.honras.types.ClanInvite
 import java.util.UUID
 
-class InviteManager {
-    val inviteMap:HashMap<UUID,ClanInvite> = HashMap<UUID,ClanInvite>()
+class InviteManager{
+    private val inviteMap: MutableMap<UUID, MutableList<ClanInvite>>  = mutableMapOf()
     
-    fun addInvite(invite:ClanInvite) {
-        inviteMap.put(invite.receiver, invite)
+    fun sendInvite(invite:ClanInvite) {
+        inviteMap.computeIfAbsent(invite.sender) { mutableListOf() }.add(invite)
     }
-    fun removeInvite(invite:ClanInvite) {
-        inviteMap.put(invite.receiver, invite)
+    fun rejectInvite(invite:ClanInvite) {
+        inviteMap[invite.receiver]?.remove(invite)
+        if(inviteMap[invite.receiver]?.isEmpty() == true) {
+            inviteMap.remove(invite.receiver)
+        }
     }
-    fun getInviteByReceiver(receiver: UUID): ClanInvite? {
-        return inviteMap.get(receiver)
+    fun acceptInvite(invite:ClanInvite) {
+        inviteMap[invite.receiver]?.remove(invite)
+        if(inviteMap[invite.receiver]?.isEmpty() == true) {
+            inviteMap.remove(invite.receiver)
+        }
+    }
+    fun getInviteByReceiver(receiver: UUID): MutableList<ClanInvite>? {
+        return inviteMap[receiver]
     }
     fun hasInvite(receiver: UUID):Boolean{
-        return inviteMap.containsKey(receiver)
+        return inviteMap[receiver]?.isNotEmpty() == true
     }
 }

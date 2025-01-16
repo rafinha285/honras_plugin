@@ -50,4 +50,8 @@ class ClansManager(val mongoCollection: MongoCollection<ClansCollection>){
 	fun createClan(clan:ClansCollection){
 		mongoCollection.insertOne(clan)
 	}
+	
+	fun deleteClan(clan: ClansCollection){
+		mongoCollection.deleteOne(Filters.eq("_id", clan.id))
+	}
 }
